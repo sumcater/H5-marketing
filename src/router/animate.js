@@ -1,6 +1,6 @@
 
 
-const animate = r => require.ensure([], () => r(require('@/page/animate/index.vue')), 'chunkname5');
+const animate = r => require.ensure([], () => r(require('@/page/animate/index2.vue')), 'chunkname5');
 
 export default
     {
