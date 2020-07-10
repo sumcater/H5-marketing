@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>菜鸟教程(runoob.com)</title>
+    <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js">
+    </script>
+    <script>
+        $(document).ready(function () {
+            $("button").click(function () {
+                console.log($("div").scrollLeft() + " px");
+                // $("div").scrollLeft(-100)
+            });
+        });
+
+    </script>
+</head>
+
+<body>
+
+    <div style="border:1px solid black;width:100px;height:130px;overflow:auto">
+        The longest word in the english dictionary is: pneumonoultramicroscopicsilicovolcanoconiosis.
+    </div><br>
+    <button>返回水平滚动条的位置</button>
+    <p>向右移动滚动条,再次单击该按钮。</p>
+
+</body>
+
+</html>

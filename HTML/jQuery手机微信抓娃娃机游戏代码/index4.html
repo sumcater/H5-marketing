@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+    <style>
+        .innerWrapper {
+            float: left;
+            margin-right: -32767px;
+        }
+
+        .outerWrapper {
+            width: 300px;
+            height: 180px;
+            overflow: hidden;
+            background-color: #f00;
+        }
+    </style>
+
+</head>
+
+
+
+<body>
+    <input type='button' class='leftArrow' value='left'>
+    <input type='button' class='rightArrow' value='right'>
+
+    <div class='outerWrapper'>
+        <div class='innerWrapper'>
+            Lorem ipsum dolor sit amet,consectetur adipisicing elit,sed do eiusmod tempor incididunt ut labore et dolore
+            magna aliqua. Ut enim ad minim veniam,quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+            commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat
+            nulla pariatur. Excepteur sint occaecat cupidatat non proident,sunt in culpa qui officia deserunt mollit
+            anim id est laborum.
+        </div>
+    </div>
+</body>
+
+</html>
+
+<script>
+    $(document).ready(function () {
+        $(".leftArrow").click(function () {
+            console.log(1);
+
+            var leftPos = $('.innerWrapper').scrollLeft();
+            console.log(leftPos);
+
+            $(".innerWrapper").animate({ scrollLeft: leftPos - 200 }, 800);
+        });
+
+        $(".rightArrow").click(function () {
+            console.log(2);
+
+            var leftPos = $('.innerWrapper').scrollLeft();
+            $(".innerWrapper").animate({ scrollLeft: leftPos + 200 }, 800);
+        });
+    });
+
+</script>
