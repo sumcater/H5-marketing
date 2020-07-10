@@ -194,7 +194,7 @@ export default {
           return;
         }
       }
-      this.$toast("狗屎都没抓到");
+      this.$toast("没抓到哦");
     }
   }
 };
