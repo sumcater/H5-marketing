@@ -16,7 +16,7 @@
 
       <div class="area">
         <!--娃娃滚动-->
-        <div id="pack1">
+        <div id="pack1" class="pack">
           <div id="sel1">
             <img src="./images/mks1.png" tr="1" />
             <img src="./images/mks2.png" tr="2" />
@@ -29,7 +29,7 @@
           </div>
           <div id="sel2"></div>
         </div>
-        <div id="pack2">
+        <div id="pack2" class="pack">
           <div id="sel4"></div>
           <div id="sel3">
             <img src="./images/mks4.png" tr="1" />
@@ -66,7 +66,8 @@ export default {
       t_img: "./images/mks1.png", // 抓起的礼物图片
       c: 0,
       c1: 0,
-      winWidth: "" // 页面宽度
+      winWidth: "", // 页面宽度
+      marginLeft: "" // 图片间隔
     };
   },
   mounted() {
@@ -80,10 +81,12 @@ export default {
     $(".area").css({ height: this.areaHeight });
     // this.setGrabInterval();
     this.talon = $(".pawerPic").offset().left + 55; // 首先获取爪子的位置(这里是固定的)
-
+    //初始化定位位置
     $("#sel1").css("left", 0);
     $("#sel3").css("left", this.winWidth / 4);
-
+    //初始化间隔
+    $(".pack img").css("margin", " 0 40px");
+    this.marginLeft = parseInt($(".pack img").css("marginLeft"));
     this.scrollLeft(); //娃娃向左滚动
     this.scrollRight(); //娃娃向右滚动
   },
@@ -125,7 +128,6 @@ export default {
     /* 点击按钮 */
     start() {
       let _this = this;
-      // clearInterval(this.interval); // 去除钩子左右滑动周期事件
 
       _this.startShow = false;
       _this.endShow = true;
@@ -173,21 +175,16 @@ export default {
     ok_no() {
       let _this = this;
       /* 打印出此时此刻每个娃娃的位置 */
-      for (let i = 0; i < $("#pack1 img").length; i++) {
-        console.log(
-          $("#pack1 img")
-            .eq(i)
-            .offset().left,
-          i
-        );
-
-        // let l = $("#pack1 img").eq(i) .offset().left + 41.61; // 此时此刻每个娃娃的位置
+      for (let i = 0; i < $(".pack img").length; i++) {
         let l =
-          $("#pack1 img")
+          $(".pack img")
             .eq(i)
-            .offset().left + 81.61; // 此时此刻每个娃娃的位置
+            .offset().left +
+          41.61 +
+          this.marginLeft; // 此时此刻每个娃娃的位置
+
         if (l - 20 <= this.talon && this.talon <= l + 20) {
-          this.t_img = $("#pack1 img")
+          this.t_img = $(".pack img")
             .eq(i)
             .attr("src");
 
@@ -196,33 +193,9 @@ export default {
           }, 0);
           return;
         }
-        /* 然后和爪子的位置进行比较 */
       }
       this.$toast("狗屎都没抓到");
     }
-    // 爪子设置周期左右滑动
-    // setGrabInterval() {
-    //   let _this = this;
-    //   let objPaw = $(".pawerPic"); // 爪子
-    //   let objGrab = $(".pawer"); // 绳子
-    //   let pawLeft = objPaw.offset().left + 50; // 爪子距离左部的位置
-    //   let grabLeft = objGrab.offset().left; // 绳子距离左部的位置
-    //   let winWidth = $(window).width(); // 页面的宽
-    //   this.interval = setInterval(function() {
-    //     if (_this.startXDirection == 0) {
-    //       objPaw.css("left", pawLeft++);
-    //       objGrab.css("left", grabLeft++);
-    //     } else if (_this.startXDirection == 1) {
-    //       objPaw.css("left", pawLeft--);
-    //       objGrab.css("left", grabLeft--);
-    //     }
-    //     if (pawLeft - 55 <= 0) {
-    //       _this.startXDirection = 0;
-    //     } else if (pawLeft >= winWidth - 55) {
-    //       _this.startXDirection = 1;
-    //     }
-    //   }, 10);
-    // }
   }
 };
 </script>
@@ -351,15 +324,12 @@ export default {
   position: absolute;
   // left: 0;
 }
-// #sel4 {
-//   position: absolute;
-//   left: -100%;
-// }
+
 #pack1 img,
 #pack2 img {
   display: inline-block;
   height: 90px;
   width: 100px;
-  margin: 0 40px;
+  // margin: 0 40px;
 }
 </style>
