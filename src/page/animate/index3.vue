@@ -16,7 +16,7 @@
 
       <div class="area">
         <!--娃娃滚动-->
-        <div id="pack">
+        <div id="pack1">
           <div id="sel1">
             <img src="./images/mks1.png" tr="1" />
             <img src="./images/mks2.png" tr="2" />
@@ -28,6 +28,13 @@
             <img src="./images/mks8.png" tr="8" />-->
           </div>
           <div id="sel2"></div>
+        </div>
+        <div id="pack2">
+          <div id="sel4"></div>
+          <div id="sel3">
+            <img src="./images/mks4.png" tr="1" />
+            <img src="./images/mks3.png" tr="2" />
+          </div>
         </div>
       </div>
       <!--按钮(真)-->
@@ -57,7 +64,8 @@ export default {
       endShow: false,
       screenHeight: document.documentElement.clientHeight, // 屏幕尺寸
       t_img: "./images/mks1.png", // 抓起的礼物图片
-      c: 0
+      c: 0,
+      c1: 0
     };
   },
   mounted() {
@@ -70,6 +78,7 @@ export default {
     // this.setGrabInterval();
     this.talon = $(".pawerPic").offset().left + 55; // 首先获取爪子的位置(这里是固定的)
     this.scrollLeft(); //娃娃滚动
+    this.scrollRight(); //娃娃滚动
     // this.start();
   },
 
@@ -82,12 +91,42 @@ export default {
     },
     Marquee() {
       this.c++;
-      if ($("#sel2").width() - $("#pack").scrollLeft() <= 0) {
-        this.c = 0;
-        $("#pack").scrollLeft(this.c);
+      let winWidth = $(window).width();
+      if ($("#sel2").width() - $("#pack1").scrollLeft() <= 0) {
+        this.c1 = 0;
+        $("#pack1").scrollLeft(this.c + 200);
       } else {
-        $("#pack").scrollLeft(this.c);
+        $("#pack1").scrollLeft(this.c + 200);
       }
+    },
+    // Marquee() {
+    //   this.c++;
+    //   if ($("#sel2").width() - $("#pack1").scrollLeft() <= 0) {
+    //     this.c1 = 0;
+    //     $("#pack1").scrollLeft(this.c);
+    //   } else {
+    //     $("#pack1").scrollLeft(this.c);
+    //   }
+    // },
+    scrollRight() {
+      var speed = 20;
+      var yu = $("#sel3").html();
+      $("#sel4").html(yu);
+      setInterval(this.Marquee1, speed);
+    },
+
+    Marquee1() {
+      this.c1++;
+      let winWidth = $(window).width(); // 页面的宽
+      console.log(winWidth, this.c1, "winWidth");
+
+      $("#pack2").scrollLeft(this.c1 + winWidth);
+      // if ($("#sel4").width() - $("#pack2").scrollRight() <= 0) {
+      //   this.c = 0;
+      //   $("#pack2").scrollRight(this.c1);
+      // } else {
+      //   $("#pack3").scrollRight(this.c1);
+      // }
     },
     /* 点击按钮 */
     start() {
@@ -140,21 +179,21 @@ export default {
     ok_no() {
       let _this = this;
       /* 打印出此时此刻每个娃娃的位置 */
-      for (let i = 0; i < $("#pack img").length; i++) {
+      for (let i = 0; i < $("#pack1 img").length; i++) {
         console.log(
-          $("#pack img")
+          $("#pack1 img")
             .eq(i)
             .offset().left,
           i
         );
 
-        // let l = $("#pack img").eq(i) .offset().left + 41.61; // 此时此刻每个娃娃的位置
+        // let l = $("#pack1 img").eq(i) .offset().left + 41.61; // 此时此刻每个娃娃的位置
         let l =
-          $("#pack img")
+          $("#pack1 img")
             .eq(i)
             .offset().left + 81.61; // 此时此刻每个娃娃的位置
         if (l - 20 <= this.talon && this.talon <= l + 20) {
-          this.t_img = $("#pack img")
+          this.t_img = $("#pack1 img")
             .eq(i)
             .attr("src");
 
@@ -289,7 +328,8 @@ export default {
   left: 0;
 }
 /*娃娃滚动*/
-#pack {
+#pack1,
+#pack2 {
   width: 100%;
   height: 90px;
   white-space: nowrap;
@@ -297,12 +337,26 @@ export default {
   position: absolute;
   bottom: 0;
   left: 0;
+  border-bottom: 1px solid #000;
+  // &:last-child {
+  //   bottom: 90px;
+  // }
+}
+#pack2 {
+  bottom: 90px;
 }
 #sel1,
-#sel2 {
+#sel2,
+#sel3,
+#sel4 {
   display: inline;
 }
-#pack img {
+#sel4 {
+  position: absolute;
+  left: -100%;
+}
+#pack1 img,
+#pack2 img {
   display: inline-block;
   height: 90px;
   width: 100px;
