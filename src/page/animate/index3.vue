@@ -91,7 +91,7 @@ export default {
     },
     Marquee() {
       this.c++;
-      let winWidth = $(window).width();
+      // let winWidth = $(window).width();
       if ($("#sel2").width() - $("#pack1").scrollLeft() <= 0) {
         this.c1 = 0;
         $("#pack1").scrollLeft(this.c + 200);
@@ -119,8 +119,8 @@ export default {
       this.c1++;
       let winWidth = $(window).width(); // 页面的宽
       console.log(winWidth, this.c1, "winWidth");
-
-      $("#pack2").scrollLeft(this.c1 + winWidth);
+      $("#pack2").css("left", this.c1++);
+      // $("#pack2").scrollLeft(this.c1 + winWidth);
       // if ($("#sel4").width() - $("#pack2").scrollRight() <= 0) {
       //   this.c = 0;
       //   $("#pack2").scrollRight(this.c1);
