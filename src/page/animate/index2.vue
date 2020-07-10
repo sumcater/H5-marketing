@@ -76,7 +76,7 @@ export default {
       _this.endShow = true;
 
       $(".pawer").animate({ height: this.long }, 2000); // 伸下去(绳子)
-      $(".pawerPic").animate({ top: this.long + 30 }, 2000, "", function() {
+      $(".pawerPic").animate({ top: this.long + 20 }, 2000, "", function() {
         _this.gzShow2 = true;
       }); // 伸下去(爪子)
 
