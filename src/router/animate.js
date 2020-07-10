@@ -5,7 +5,6 @@ const animate = r => require.ensure([], () => r(require('@/page/animate/index.vu
 const animate1 = r => require.ensure([], () => r(require('@/page/animate/index1.vue')), 'chunkname5');
 const animate2 = r => require.ensure([], () => r(require('@/page/animate/index2.vue')), 'chunkname5');
 const animate3 = r => require.ensure([], () => r(require('@/page/animate/index3.vue')), 'chunkname5');
-const animate4 = r => require.ensure([], () => r(require('@/page/animate/index4.vue')), 'chunkname5');
 
 export default
     {
@@ -31,12 +30,6 @@ export default
                 name: "animate3",
                 component: animate3,
                 meta: { title: "动画3", keepAlive: true }
-            },
-            {
-                path: 'animate4',
-                name: "animate4",
-                component: animate4,
-                meta: { title: "动画4", keepAlive: true }
             },
 
 
