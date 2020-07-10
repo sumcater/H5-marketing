@@ -21,9 +21,9 @@
             <img src="./images/mks1.png" tr="1" />
             <img src="./images/mks2.png" tr="2" />
             <!-- <img src="./images/mks3.png" tr="3" />
-            <img src="./images/mks4.png" tr="4" /> -->
-            <!-- <img src="./images/mks5.png" tr="5" /> -->
-            <!-- <img src="./images/mks6.png" tr="6" />
+            <img src="./images/mks4.png" tr="4" />
+            <img src="./images/mks5.png" tr="5" />
+            <img src="./images/mks6.png" tr="6" />
             <img src="./images/mks7.png" tr="7" />
             <img src="./images/mks8.png" tr="8" />-->
           </div>
@@ -60,7 +60,7 @@ export default {
       c: 0
     };
   },
-  mounted: function() {
+  mounted() {
     // 活动区域的高
     this.areaHeight = this.screenHeight - 150;
     // 爪子伸长的距离(目前娃娃的高度暂定为115px;)
@@ -70,6 +70,7 @@ export default {
     // this.setGrabInterval();
     this.talon = $(".pawerPic").offset().left + 55; // 首先获取爪子的位置(这里是固定的)
     this.scrollLeft(); //娃娃滚动
+    // this.start();
   },
 
   methods: {
@@ -81,15 +82,10 @@ export default {
     },
     Marquee() {
       this.c++;
-      console.log($("#sel2").width(), $("#pack").scrollLeft(), "888");
-
       if ($("#sel2").width() - $("#pack").scrollLeft() <= 0) {
-        console.log(1);
-
         this.c = 0;
         $("#pack").scrollLeft(this.c);
       } else {
-        console.log(2);
         $("#pack").scrollLeft(this.c);
       }
     },
@@ -145,11 +141,19 @@ export default {
       let _this = this;
       /* 打印出此时此刻每个娃娃的位置 */
       for (let i = 0; i < $("#pack img").length; i++) {
+        console.log(
+          $("#pack img")
+            .eq(i)
+            .offset().left,
+          i
+        );
+
+        // let l = $("#pack img").eq(i) .offset().left + 41.61; // 此时此刻每个娃娃的位置
         let l =
           $("#pack img")
             .eq(i)
-            .offset().left + 41.61; // 此时此刻每个娃娃的位置
-        if (l - 10 <= this.talon && this.talon <= l + 10) {
+            .offset().left + 81.61; // 此时此刻每个娃娃的位置
+        if (l - 20 <= this.talon && this.talon <= l + 20) {
           this.t_img = $("#pack img")
             .eq(i)
             .attr("src");
