@@ -66,8 +66,7 @@ export default {
       t_img: "./images/mks1.png", // 抓起的礼物图片
       c: 0,
       c1: 0,
-      winWidth: "", // 页面宽度
-      marginLeft: "" // 图片间隔
+      winWidth: "" // 页面宽度
     };
   },
   mounted() {
@@ -86,7 +85,6 @@ export default {
     $("#sel3").css("left", this.winWidth / 4);
     //初始化间隔
     $(".pack img").css("margin", " 0 40px");
-    this.marginLeft = parseInt($(".pack img").css("marginLeft"));
     this.scrollLeft(); //娃娃向左滚动
     this.scrollRight(); //娃娃向右滚动
   },
@@ -179,11 +177,9 @@ export default {
         let l =
           $(".pack img")
             .eq(i)
-            .offset().left +
-          41.61 +
-          this.marginLeft; // 此时此刻每个娃娃的位置
+            .offset().left + 50; // 此时此刻每个娃娃的位置
 
-        if (l - 20 <= this.talon && this.talon <= l + 20) {
+        if (l - 10 <= this.talon && this.talon <= l + 10) {
           this.t_img = $(".pack img")
             .eq(i)
             .attr("src");
