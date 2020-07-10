@@ -143,12 +143,17 @@ export default {
       let objGrab = $(".pawer"); // 绳子
       let pawLeft = objPaw.offset().left + 50; // 爪子距离左部的位置
       let grabLeft = objGrab.offset().left; // 绳子距离左部的位置
+
       let winWidth = $(window).width(); // 页面的宽
       this.interval = setInterval(function() {
         if (_this.startXDirection == 0) {
+          console.log(1);
+
           objPaw.css("left", pawLeft++);
           objGrab.css("left", grabLeft++);
         } else if (_this.startXDirection == 1) {
+          console.log(2);
+
           objPaw.css("left", pawLeft--);
           objGrab.css("left", grabLeft--);
         }
@@ -157,6 +162,7 @@ export default {
         } else if (pawLeft >= winWidth - 55) {
           _this.startXDirection = 1;
         }
+        console.log(pawLeft, grabLeft, "88");
       }, 10);
     }
   }

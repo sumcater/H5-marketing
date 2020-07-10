@@ -65,10 +65,13 @@ export default {
       screenHeight: document.documentElement.clientHeight, // 屏幕尺寸
       t_img: "./images/mks1.png", // 抓起的礼物图片
       c: 0,
-      c1: 0
+      c1: 0,
+      winWidth: "" // 页面宽度
     };
   },
   mounted() {
+    // 页面宽度
+    this.winWidth = $(window).width();
     // 活动区域的高
     this.areaHeight = this.screenHeight - 150;
     // 爪子伸长的距离(目前娃娃的高度暂定为115px;)
@@ -77,9 +80,12 @@ export default {
     $(".area").css({ height: this.areaHeight });
     // this.setGrabInterval();
     this.talon = $(".pawerPic").offset().left + 55; // 首先获取爪子的位置(这里是固定的)
-    this.scrollLeft(); //娃娃滚动
-    this.scrollRight(); //娃娃滚动
-    // this.start();
+
+    $("#sel1").css("left", 0);
+    $("#sel3").css("left", this.winWidth / 4);
+
+    this.scrollLeft(); //娃娃向左滚动
+    this.scrollRight(); //娃娃向右滚动
   },
 
   methods: {
@@ -87,46 +93,34 @@ export default {
       var speed = 20;
       var yu = $("#sel1").html();
       $("#sel2").html(yu);
+      $("#sel2").css("left", this.winWidth);
       setInterval(this.Marquee, speed);
     },
     Marquee() {
       this.c++;
-      // let winWidth = $(window).width();
-      if ($("#sel2").width() - $("#pack1").scrollLeft() <= 0) {
-        this.c1 = 0;
-        $("#pack1").scrollLeft(this.c + 200);
-      } else {
-        $("#pack1").scrollLeft(this.c + 200);
+      $("#sel1").css("left", -this.c);
+      $("#sel2").css("left", this.winWidth - this.c);
+      if (this.c >= this.winWidth) {
+        this.c = 0;
+        $("#sel1").css("left", this.c);
       }
     },
-    // Marquee() {
-    //   this.c++;
-    //   if ($("#sel2").width() - $("#pack1").scrollLeft() <= 0) {
-    //     this.c1 = 0;
-    //     $("#pack1").scrollLeft(this.c);
-    //   } else {
-    //     $("#pack1").scrollLeft(this.c);
-    //   }
-    // },
     scrollRight() {
       var speed = 20;
       var yu = $("#sel3").html();
       $("#sel4").html(yu);
+      $("#sel4").css("left", -this.winWidth);
       setInterval(this.Marquee1, speed);
     },
 
     Marquee1() {
       this.c1++;
-      let winWidth = $(window).width(); // 页面的宽
-      console.log(winWidth, this.c1, "winWidth");
-      $("#pack2").css("left", this.c1++);
-      // $("#pack2").scrollLeft(this.c1 + winWidth);
-      // if ($("#sel4").width() - $("#pack2").scrollRight() <= 0) {
-      //   this.c = 0;
-      //   $("#pack2").scrollRight(this.c1);
-      // } else {
-      //   $("#pack3").scrollRight(this.c1);
-      // }
+      $("#sel3").css("left", this.c);
+      $("#sel4").css("left", -this.winWidth + this.c);
+      if (this.c1 >= this.winWidth) {
+        this.c1 = 0;
+        $("#sel3").css("left", this.c1);
+      }
     },
     /* 点击按钮 */
     start() {
@@ -349,12 +343,18 @@ export default {
 #sel2,
 #sel3,
 #sel4 {
+  position: absolute;
   display: inline;
 }
-#sel4 {
+#sel3,
+#sel1 {
   position: absolute;
-  left: -100%;
+  // left: 0;
 }
+// #sel4 {
+//   position: absolute;
+//   left: -100%;
+// }
 #pack1 img,
 #pack2 img {
   display: inline-block;
