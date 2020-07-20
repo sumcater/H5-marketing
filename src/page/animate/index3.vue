@@ -18,8 +18,8 @@
         <!--娃娃滚动-->
         <div id="pack1" class="pack">
           <div id="sel1">
-            <img src="./images/mks1.png" tr="1" />
-            <img src="./images/mks2.png" tr="2" />
+            <img src="./images/mks1.png" arrow="left" />
+            <img src="./images/mks2.png" arrow="left" />
             <!-- <img src="./images/mks3.png" tr="3" />
             <img src="./images/mks4.png" tr="4" />
             <img src="./images/mks5.png" tr="5" />
@@ -32,8 +32,8 @@
         <div id="pack2" class="pack">
           <div id="sel4"></div>
           <div id="sel3">
-            <img src="./images/mks4.png" tr="1" />
-            <img src="./images/mks3.png" tr="2" />
+            <img src="./images/mks4.png" arrow="right" />
+            <img src="./images/mks3.png" arrow="right" />
           </div>
         </div>
       </div>
@@ -42,7 +42,7 @@
         <!--点击前-->
         <div class="btn_star" @click="start" v-show="startShow"></div>
         <!--点击后-->
-        <div class="btn_end" v-show="endShow"></div>
+        <div class="btn_end" @click="start" v-show="endShow"></div>
       </div>
     </div>
   </div>
@@ -79,7 +79,7 @@ export default {
     /* 赋值给活动区域高度 */
     $(".area").css({ height: this.areaHeight });
     // this.setGrabInterval();
-    this.talon = $(".pawerPic").offset().left + 55; // 首先获取爪子的位置(这里是固定的)
+    this.talon = $(".pawerPic").offset().left + $(".pawerPic").width() * 0.5; // 首先获取爪子的位置(这里是固定的)
     //初始化定位位置
     $("#sel1").css("left", 0);
     $("#sel3").css("left", this.winWidth / 4);
@@ -87,9 +87,134 @@ export default {
     $(".pack img").css("margin", " 0 40px");
     this.scrollLeft(); //娃娃向左滚动
     this.scrollRight(); //娃娃向右滚动
+    // this.start();
   },
 
   methods: {
+    /* 点击按钮 */
+    start() {
+      let _this = this;
+
+      _this.startShow = false;
+      _this.endShow = true;
+      setTimeout(() => {
+        console.log(this.c, "c");
+      }, 2000);
+      let wawa = [];
+      let ori;
+      let time;
+      for (let i = 0; i < $(".pack img").length; i++) {
+        let l =
+          $(".pack img")
+            .eq(i)
+            .offset().left + 50; // 此时此刻每个娃娃的位置
+
+        let src = $(".pack img")
+          .eq(i)
+          .attr("src");
+
+        let arrow = $(".pack img")
+          .eq(i)
+          .attr("arrow");
+        console.log(l, src, this.talon, arrow);
+
+        if (
+          (arrow === "left" && l - this.talon > 100) ||
+          (arrow === "right" && this.talon - l > 100)
+        ) {
+          console.log("////", src, l);
+          wawa.push({ localtion: Math.abs(l - this.talon), arrow });
+        }
+        ori = wawa[0];
+        console.log(ori, "ori");
+        if (ori && ori.arrow === "left") {
+          time = (ori.localtion * 1000) / 50;
+          console.log(time, "time");
+          $(".pawer").animate({ height: this.long }, time); // 伸下去(绳子)
+          $(".pawerPic").animate({ top: this.long + 20 }, time, "", function() {
+            _this.gzShow2 = true;
+          }); // 伸下去(爪子)
+          this.t_img = $(".pack img")
+            .eq(i)
+            .attr("src");
+
+          setTimeout(function() {
+            _this.fn(_this.t_img);
+          }, 0);
+        }
+        // if (
+        //   Math.abs(this.talon - l) < this.talon &&
+        //   Math.abs(this.talon - l) > 100
+        // ) {
+        //   console.log("////", src, l);
+        //   wawa.push(l);
+        //   ori = wawa[0];
+        //   console.log(ori, "ori");
+        // }
+        if (l - 10 <= this.talon && this.talon <= l + 10) {
+          this.t_img = $(".pack img")
+            .eq(i)
+            .attr("src");
+
+          setTimeout(function() {
+            _this.fn(_this.t_img);
+          }, 0);
+          return;
+        }
+      }
+
+      // $(".pawer").animate({ height: this.long }, 2000); // 伸下去(绳子)
+      // $(".pawerPic").animate({ top: this.long + 20 }, 2000, "", function() {
+      //   _this.gzShow2 = true;
+      // }); // 伸下去(爪子)
+
+      // /*事件调用*/
+      // setTimeout(function() {
+      //   _this.ok_no();
+      // }, 2000); /* 判断抓没抓到娃娃 */
+      setTimeout(function() {
+        _this.end();
+      }, time * 2); // 娃娃消失
+      setTimeout(function() {
+        _this.btn();
+      }, time * 2); // 按钮点击
+
+      $(".pawer").animate({ height: 20 }, 2000); // 缩回来(绳子)
+      $(".pawerPic").animate({ top: 40 }, 2000); // 缩回来(爪子)
+      // $(".pawerPic").animate({ top: 40 }, 2000, "", function() {
+      //   _this.setGrabInterval();
+      //   // MessageBox.confirm('确定执行此操作?').then(action => {
+      //   //   console.log(action)
+      //   // });
+      // }); // 缩回来(爪子)
+    },
+    ok_no() {
+      let _this = this;
+      /* 打印出此时此刻每个娃娃的位置 */
+      for (let i = 0; i < $(".pack img").length; i++) {
+        let l =
+          $(".pack img")
+            .eq(i)
+            .offset().left + 50; // 此时此刻每个娃娃的位置
+
+        let src = $(".pack img")
+          .eq(i)
+          .attr("src");
+        console.log(l, src, this.talon);
+
+        if (l - 10 <= this.talon && this.talon <= l + 10) {
+          this.t_img = $(".pack img")
+            .eq(i)
+            .attr("src");
+
+          setTimeout(function() {
+            _this.fn(_this.t_img);
+          }, 0);
+          return;
+        }
+      }
+      this.$toast("没抓到哦");
+    },
     scrollLeft() {
       var speed = 20;
       var yu = $("#sel1").html();
@@ -123,38 +248,7 @@ export default {
         $("#sel3").css("left", this.c1);
       }
     },
-    /* 点击按钮 */
-    start() {
-      let _this = this;
 
-      _this.startShow = false;
-      _this.endShow = true;
-
-      $(".pawer").animate({ height: this.long }, 2000); // 伸下去(绳子)
-      $(".pawerPic").animate({ top: this.long + 20 }, 2000, "", function() {
-        _this.gzShow2 = true;
-      }); // 伸下去(爪子)
-
-      // /*事件调用*/
-      setTimeout(function() {
-        _this.ok_no();
-      }, 2000); /* 判断抓没抓到娃娃 */
-      setTimeout(function() {
-        _this.end();
-      }, 4000); // 娃娃消失
-      setTimeout(function() {
-        _this.btn();
-      }, 4000); // 按钮点击
-
-      $(".pawer").animate({ height: 20 }, 2000); // 缩回来(绳子)
-      $(".pawerPic").animate({ top: 40 }, 2000); // 缩回来(爪子)
-      // $(".pawerPic").animate({ top: 40 }, 2000, "", function() {
-      //   _this.setGrabInterval();
-      //   // MessageBox.confirm('确定执行此操作?').then(action => {
-      //   //   console.log(action)
-      //   // });
-      // }); // 缩回来(爪子)
-    },
     /* 抓到娃娃 */
     fn(img) {
       $(".win img").attr("src", img);
@@ -169,28 +263,6 @@ export default {
       $(".pawerPic").removeClass("on");
       this.gzShow1 = true;
       this.gzShow2 = false;
-    },
-    ok_no() {
-      let _this = this;
-      /* 打印出此时此刻每个娃娃的位置 */
-      for (let i = 0; i < $(".pack img").length; i++) {
-        let l =
-          $(".pack img")
-            .eq(i)
-            .offset().left + 50; // 此时此刻每个娃娃的位置
-
-        if (l - 10 <= this.talon && this.talon <= l + 10) {
-          this.t_img = $(".pack img")
-            .eq(i)
-            .attr("src");
-
-          setTimeout(function() {
-            _this.fn(_this.t_img);
-          }, 0);
-          return;
-        }
-      }
-      this.$toast("没抓到哦");
     }
   }
 };
