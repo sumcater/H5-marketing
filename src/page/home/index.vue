@@ -109,7 +109,7 @@ export default {
           title: "团队管理",
           // tip: "团队管理文案",
           routerName: "teamMG"
-        }
+        },
       ],
       orgValue: "",
       selectOrgArr: []
