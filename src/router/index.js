@@ -5,21 +5,36 @@ import configRouters from "./main";
 const home = r => require.ensure([], () => r(require('@/page/home/index.vue')), 'chunkname5');
 Vue.use(Router)
 export default new Router({
-  routes: [
+  routes: [{
+      path: "/",
+      redirect: {
+        name: 'demo'
+      }
+    },
     {
       path: "/",
-      redirect: { name: 'home' }
+      redirect: {
+        name: 'demo'
+      }
+    },
+    {
+      path: "/demo",
+      name: "demo",
+      component: () => import('@/page/demo/index.vue'),
+      meta: {
+        title: "demo",
+        keepAlive: true
+      }
     },
     {
       path: "/home",
       name: "home",
       component: home,
-      meta: { title: "营销管理系统", keepAlive: true }
+      meta: {
+        title: "营销管理系统",
+        keepAlive: true
+      }
     },
     ...configRouters
   ]
 })
-
-
-
-
