@@ -14,7 +14,7 @@ export default {
         "和仔仔",
         "反反复复",
         "踩踩踩",
-        "踩踩踩顶顶",
+        "踩踩踩顶成都的发表顶",
         "大多数",
         "大多数",
         "大多数",
@@ -30,12 +30,13 @@ export default {
   display: flex;
   justify-content: space-between;
   overflow-x: auto;
-  .item{
-    padding:  10px;
+  .item {
+    padding: 10px;
     margin: 0 10px;
-    min-width: 100px;
+    // min-width: 80px;
     background-color: #f00;
     text-align: center;
+    white-space: nowrap;
   }
 }
 </style>
