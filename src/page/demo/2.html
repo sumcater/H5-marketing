@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2</title>
+</head>
+<style>
+    div {
+        border-bottom: 1px solid #000;
+    }
+</style>
+
+<body>
+    <div>
+        11
+    </div>
+    <script>
+        function fn(val) {
+            console.log(this, val);
+        }
+        var obj = {
+            fn: function (val) {
+                console.log(this, val);
+            },
+            code: "xm",
+            name: "小明"
+        }
+        fn(8) //window
+        obj.fn.call(window, 2) //
+        obj.fn.apply(window, [2]) //
+        obj.fn.bind(window)(2) //
+        // fn1(2) //window 
+        //this 永远指向最后调用他的那个对象
+
+
+        var name = "windowsName";
+        var a = {
+
+            name: "Cherry",
+
+            func1: function () {
+                console.log(this.name)
+            },
+
+            func2: function () {
+                // var _this = this;
+                setTimeout(function () {
+                    // _this.func1()
+                    this.func1()
+                }.apply(a), 100);
+            }
+
+        };
+
+        a.func2() // Cherry
+    </script>
+</body>
+
+</html>

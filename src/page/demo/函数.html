@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>函数</title>
+</head>
+
+<body>
+    <script>
+        function compose(f, g) {
+            return function (str) {
+                return f.call(this, g.call(this, str));
+            };
+        }
+
+        function toLocaleUpperCase(str) {
+            return str.toLocaleUpperCase();
+        }
+
+        function toSigh(str) {
+            return str + "!";
+        }
+        // 将多个函数按照先后执行顺序组合成一个函数，简化多个调用步骤。
+        const composedFn = compose(toSigh, toLocaleUpperCase);
+        console.log("函数组合：", composedFn("msx"));
+        // 函数组合：MSX!
+    </script>
+</body>
+
+</html>
